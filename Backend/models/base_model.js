@@ -12,8 +12,9 @@ class BaseModel{
             updated_at: dateTime.create().format('Y-m-d H:M:S'),
         }
     )
-
-    this.id = options.id;
-    this.created_at = options.created_at;
-    this.updated_at = options.updated_at;
+    {
+        this.id = options.id;
+        this.created_at = options.created_at;
+        this.updated_at = options.updated_at;
+    }
 }
