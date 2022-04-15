@@ -1,21 +1,41 @@
 #!/user/bin/ node
 const { v4: uuidv4 } = require('uuid');
+const kwargs = require('kwargsjs');
 
 class BaseModel{
-    constructor(
-        options = {
-            id: uuidv4().toString(),
-            created_at: new Date(),
-            updated_at: new Date(),
-        }
-    )
+    __init__(kwargs, ...args) {
+        let j,k;
 
-    {
-        this.id = options.id;
-        this.created_at = options.created_at;
-        this.updated_at = options.updated_at;
-        this.__class__ = this.constructor.name;
+        if (!kwargs) {
+            for (j= 0; j < kwargs.length ; j++) {
+                if (k != '__class__') {
+                    setattr(this, k, kwargs[j]);
+                }
+            }
+            if ('created_at' in kwargs) {
+                this.created_at = new Date(kwargs['created_at']);
+            }
+            if ('updated_at' in kwargs) {
+                this.updated_at = new Date(kwargs['updated_at']);
+            }
+        } else {
+            constructor(
+                options = {
+                    id: uuidv4().toString(),
+                    created_at: new Date(),
+                    updated_at: new Date(),
+                }
+            )
+
+            {
+                this.id = options.id;
+                this.created_at = options.created_at;
+                this.updated_at = options.updated_at;
+                this.__class__ = this.constructor.name;
+            }
+        }
     }
+
 
     __str__() {
         return `${this.__class__}(id=${this.id})(class=${this.__class__})`;
