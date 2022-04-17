@@ -3,39 +3,49 @@ const { v4: uuidv4 } = require('uuid');
 const kwargs = require('kwargsjs');
 
 class BaseModel{
-    __init__(kwargs, ...args) {
-        let j,k;
-
-        if (!kwargs) {
-            for (j= 0; j < kwargs.length ; j++) {
-                if (k != '__class__') {
-                    setattr(this, k, kwargs[j]);
-                }
-            }
-            if ('created_at' in kwargs) {
-                this.created_at = new Date(kwargs['created_at']);
-            }
-            if ('updated_at' in kwargs) {
-                this.updated_at = new Date(kwargs['updated_at']);
-            }
-        } else {
-            constructor(
-                options = {
-                    id: uuidv4().toString(),
-                    created_at: new Date(),
-                    updated_at: new Date(),
-                }
-            )
-
-            {
-                this.id = options.id;
-                this.created_at = options.created_at;
-                this.updated_at = options.updated_at;
-                this.__class__ = this.constructor.name;
-            }
+    constructor(
+        options = {
+            id: uuidv4().toString(),
+            created_at: new Date(),
+            updated_at: new Date(),
         }
+    )
+
+    {
+        this.id = options.id;
+        this.created_at = options.created_at;
+        this.updated_at = options.updated_at;
+        this.__class__ = this.constructor.name;
     }
 
+    __init__(kwargs) {
+        if (kwargs) {
+            for (let key in kwargs) {
+                this[key] = kwargs[key];
+            }
+
+            if (this.created_at in kwargs) {
+                this.created_at = kwargs.created_at;
+            } else {
+                this.created_at = new Date();
+            }
+
+            if (this.updated_at in kwargs) {
+                this.updated_at = kwargs.updated_at;
+            } else {
+                this.updated_at = new Date();
+            }
+
+            this.__class__ = this.constructor.name;
+        } else {
+            this.id = uuidv4().toString();
+            this.created_at = new Date();
+            this.updated_at = new Date();
+            this.__class__ = this.constructor.name;
+        }
+
+        return this;
+    }
 
     __str__() {
         return `${this.__class__}(id=${this.id})(class=${this.__class__})`;
@@ -48,10 +58,10 @@ class BaseModel{
     to_dict() {
         let dict = {};
 
-        dict['__class__'] = this.__class__;
-        dict['updated_at'] = this.updated_at.toISOString();
         dict.id = this.id;
-        dict['created_at'] = this.created_at.toISOString();
+        dict['__class__'] = this.__class__;
+        dict['created_at'] = this.created_at;
+        dict['updated_at'] = this.updated_at;
 
         for (let key in this) {
             if (key !== 'id' && key !== 'created_at' && key !== 'updated_at' && key !== '__class__') {
