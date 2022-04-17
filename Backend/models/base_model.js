@@ -60,8 +60,8 @@ class BaseModel{
 
         dict.id = this.id;
         dict['__class__'] = this.__class__;
-        dict['created_at'] = this.created_at;
-        dict['updated_at'] = this.updated_at;
+        dict['created_at'] = this.created_at.toISOString();
+        dict['updated_at'] = this.updated_at.toISOString();
 
         for (let key in this) {
             if (key !== 'id' && key !== 'created_at' && key !== 'updated_at' && key !== '__class__') {
@@ -69,7 +69,7 @@ class BaseModel{
             }
         }
 
-        return dict;
+        return JSON.parse(JSON.stringify(dict));
     }
 }
 

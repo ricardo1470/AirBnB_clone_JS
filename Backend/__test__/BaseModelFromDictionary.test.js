@@ -33,7 +33,6 @@ describe ('BaseModel', () => {
         };
 
         const my_model = new BaseModel(options);
-        expect(my_model.__str__()).toBe(`${my_model.__class__}(id=${my_model.id})(class=${my_model.__class__})`);
         expect(my_model.__str__()).toBe(`${my_model.constructor.name}(id=${my_model.id})(class=${my_model.__class__})`);
     });
 
@@ -60,38 +59,10 @@ describe ('BaseModel', () => {
         expect(my_model.updated_at).toBeInstanceOf(Date);
     });
 
-    test('__str__', () => {
-        const options = {
-            id: uuidv4().toString(),
-            created_at: new Date(),
-            updated_at: new Date(),
-        };
-
-        const my_model = new BaseModel(options);
-        const dict = my_model.to_dict();
-        expect(dict).toEqual({
-            __class__: my_model.constructor.name,
-            updated_at: my_model.updated_at,
-            id: my_model.id,
-            created_at: my_model.created_at,
-        });
-    });
-
     test('to_save', () => {
         const my_model = new BaseModel();
         my_model.to_save();
         expect(my_model.updated_at).toBeInstanceOf(Date);
-    });
-
-    test('to_save', () => {
-        const my_model = new BaseModel();
-        const dict = my_model.to_dict();
-        expect(dict).toEqual({
-            __class__: my_model.constructor.name,
-            updated_at: my_model.updated_at,
-            id: my_model.id,
-            created_at: my_model.created_at,
-        });
     });
 
     test('to_dict', () => {
@@ -99,13 +70,13 @@ describe ('BaseModel', () => {
         const dict = my_model.to_dict();
         expect(dict).toEqual({
             __class__: 'BaseModel',
-            updated_at: my_model.updated_at,
+            updated_at: my_model.updated_at.toISOString(),
             id: my_model.id,
-            created_at: my_model.created_at,
+            created_at: my_model.created_at.toISOString(),
         });
     });
 
-    test('to_dict with options', () => {
+    test('kwars', () => {
         const options = {
             id: uuidv4().toString(),
             created_at: new Date(),
@@ -113,18 +84,12 @@ describe ('BaseModel', () => {
         };
 
         const my_model = new BaseModel(options);
-        const dict = my_model.to_dict();
-        expect(dict).toEqual({
+        const kwargs = my_model.to_dict();
+        expect(kwargs).toEqual({
             __class__: 'BaseModel',
-            updated_at: my_model.updated_at,
+            updated_at: my_model.updated_at.toISOString(),
             id: my_model.id,
-            created_at: my_model.created_at,
-        });
-
-        const dict2 = my_model.to_dict({
-            id: uuidv4().toString(),
-            created_at: new Date(),
-            updated_at: new Date(),
+            created_at: my_model.created_at.toISOString(),
         });
     });
 });
