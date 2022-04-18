@@ -1,6 +1,7 @@
 #!/user/bin/ node
 const { v4: uuidv4 } = require('uuid');
 const kwargs = require('kwargsjs');
+const FileStorage = require('./file_storage');
 
 class BaseModel{
     constructor(
