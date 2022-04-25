@@ -1,7 +1,8 @@
 #!/user/bin/ node
 const { v4: uuidv4 } = require('uuid');
 const kwargs = require('kwargsjs');
-const FileStorage = require('./file_storage');
+var storage = require('./__init__')
+const FileStorage = require('./engine/file_storage');
 
 class BaseModel{
     constructor(
@@ -54,6 +55,7 @@ class BaseModel{
 
     to_save() {
         this.updated_at = new Date();
+        storage.new(this);
     }
 
     to_dict() {

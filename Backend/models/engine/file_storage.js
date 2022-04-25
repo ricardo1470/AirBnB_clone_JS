@@ -1,43 +1,39 @@
 #!/user/bin/ node
 const path = require('path');
 const fs = require('fs');
-const BaseModel = require('../../models/base_model');
+const BaseModel = require('../base_model');
+const storage = require('../__init__');
 
-class FileStorage{
-    #objects = {};
-    #filePath = path.join(__dirname, 'file.json');
-
-    all(){
-        return this.#objects;
+class FileStorage {
+    constructor() {
+        this.file_path = path.join(__dirname, 'file.json');
+        this.objects = {};
     }
 
-    new(obj){
-        this.#objects[obj.constructor.name + '.' + obj.id] = obj;
-        this.#objects = obj;
+    //Public class methods
+    //all(self): returns the dictionary objects
+    all() {
+        return this.objects;
+    }
+
+    //new(self, obj): adds obj to the dictionary objects
+    new(obj) {
+
+        this.objects[obj.id] = obj;
+        this.save();
     }
 
     save(){
-        new_dict = {};
-
-        for (let key in this.#objects){
-            new_dict[key] = this.#objects[key].to_dict();
-        }
-
-        let json = JSON.stringify(new_dict);
-        fs.writeFileSync(this.#filePath, json);
+        fs.writeFileSync(this.file_path, JSON.stringify(this.objects, null, '\t'), function (err) {
+            if (err) throw err;
+        });
     }
 
-    reload(){
-        if (!this.#filePath ) {
-            try{
-                fs.readFileSync(this.#filePath, 'utf8');
-
-                for (let key in this.#objects){
-                    this.#objects[key] = new BaseModel(this.#objects[key]);
-                }
-            }catch(err){
-                console.log(err);
-            }
+    reload() {
+        if(!fs.existsSync(this.file_path)){
+            fs.writeFileSync(this.file_path, '{}');
+        } else{
+            this.objects = JSON.parse(fs.readFileSync(this.file_path, 'utf8'));
         }
     }
 }

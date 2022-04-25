@@ -2,19 +2,22 @@
 const BaseModel = require('../../models/base_model');
 const { v4: uuidv4 } = require('uuid');
 const kwargs = require('kwargsjs');
+var storage = require('../../models/__init__');
 
-let my_model, my_model_json;
+var my_model;
 
 
 all_objs = storage.all()
 console.log("-- Reloaded objects --")
-for (let obj_id in all_objs.keys) {
-    obj = all_objs[obj_id]
-    console.log(obj)
+for (let key in all_objs){
+    obj = all_objs[key]
+    console.log("this is obj", obj)
 }
-console.log("-- Create a new object --")
-my_model = BaseModel()
-my_model.name = "My_First_Model"
-my_model.my_number = 89
-my_model.save()
-console.log(my_model)
+console.log("-- End Reloaded objects --")
+
+console.log("-- Create a new object --");
+my_model = new BaseModel();
+my_model.name = "My_First_Model";
+my_model.my_number = 89;
+my_model.to_save();
+console.log(my_model);
