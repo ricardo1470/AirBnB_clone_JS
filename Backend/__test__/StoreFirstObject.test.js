@@ -12,10 +12,10 @@ describe('Test the FileStorage', () => {
     let my_model;
 
     beforeAll(() => {
-        if(!fs.existsSync(path.join(__dirname, 'file.json'))){
-            fs.writeFileSync(path.join(__dirname, 'file.json'), '{}');
+        if(!fs.existsSync(path.join(__dirname, './file.json'))){
+            fs.writeFileSync(path.join(__dirname, './file.json'), '{}');
         } else{
-            storage.objects = JSON.parse(fs.readFileSync(path.join(__dirname, 'file.json'), 'utf8'));
+            storage.objects = JSON.parse(fs.readFileSync(path.join(__dirname, './file.json'), 'utf8'));
         }
     })
 
@@ -32,16 +32,20 @@ describe('Test the FileStorage', () => {
     })
 
     test('Test the save method', () => {
-        fs.writeFileSync(path.join(__dirname, 'file.json'), JSON.stringify(storage.objects, null, '\t'), function (err) {
+        fs.writeFileSync(path.join(__dirname, './file.json'), JSON.stringify(storage.objects, null, '\t'), function (err) {
             if (err) throw err;
         });
     }, 10000)
 
     test('Test the reload method', () => {
-        if(!fs.existsSync(path.join(__dirname, 'file.json'))){
-            fs.writeFileSync(path.join(__dirname, 'file.json'), '{}');
+        if(!fs.existsSync(path.join(__dirname, './file.json'))){
+            fs.writeFileSync(path.join(__dirname, './file.json'), '{}');
         } else{
-            storage.objects = JSON.parse(fs.readFileSync(path.join(__dirname, 'file.json'), 'utf8'));
+            storage.objects = JSON.parse(fs.readFileSync(path.join(__dirname, './file.json'), 'utf8'));
         }
+    })
+
+    test('Test the reload method', () => {
+        expect(storage.all()).toEqual(storage.objects);
     })
 });
