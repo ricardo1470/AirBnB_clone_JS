@@ -10,13 +10,10 @@ class FileStorage {
         this.objects = {};
     }
 
-    //Public class methods
-    //all(self): returns the dictionary objects
     all() {
         return this.objects;
     }
 
-    //new(self, obj): adds obj to the dictionary objects
     new(obj) {
 
         this.objects[obj.id] = obj;
