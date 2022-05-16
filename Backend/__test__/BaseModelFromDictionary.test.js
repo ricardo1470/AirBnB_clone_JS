@@ -1,6 +1,6 @@
 #!/user/bin/ node
 
-const BaseModel = require('../models/base_model');
+const BaseModel = require('../AirBnB_clone_JS/Backend/models/base_model');
 const baseTest = require('supertest');
 const { v4: uuidv4 } = require('uuid');
 const kwargs = require('kwargsjs');

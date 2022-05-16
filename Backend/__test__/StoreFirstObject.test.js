@@ -7,6 +7,7 @@ const kwargs = require('kwargsjs');
 const storage = require('../models/__init__');
 const path = require('path');
 const fs = require('fs');
+const { resolveObjectURL } = require('buffer');
 
 describe('Test the FileStorage', () => {
     let my_model;
