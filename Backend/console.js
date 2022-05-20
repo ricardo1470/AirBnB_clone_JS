@@ -4,6 +4,7 @@ const cmd = require('node-cmd');
 const path = require('path');
 const fs = require('fs');
 const { argv } = require('process');
+const BaseModel = require('./models/BaseModel');
 
 class HBNBCommand extends cmd.run{
     constructor(
@@ -44,6 +45,65 @@ class HBNBCommand extends cmd.run{
     static EOF() {
         console.log('Bye!');
         process.exit(0);
+    }
+
+    static create(args, line) {
+        if (line.length === 0) {
+            console.log('** class name missing **');
+            return;
+        }
+    }
+
+    static show(args, line) {
+        if (line.length === 0) {
+            console.log('** class name missing **');
+            return;
+        }
+    }
+
+    static destroy(args, line) {
+        if (line.length === 0) {
+            console.log('** class name missing **');
+            return;
+        } else if (!line) {
+            console.log('** class doesn\'t exist **');
+            return;
+        } else if (line.length === 1) {
+            console.log('** instance id missing **');
+            return;
+        } else if (!line[1]) {
+            console.log('** no instance found **');
+            return;
+        }
+    }
+
+    static all(args, line) {
+        if (line.length === 0) {
+            console.log('** class name missing **');
+            return;
+        }
+    }
+
+    static update(args, line) {
+        if (line.length === 0) {
+            console.log('** class name missing **');
+            return;
+        } else if (!line) {
+            console.log('** class doesn\'t exist **');
+            return;
+        } else if (line.length === 1) {
+            console.log('** instance id missing **');
+            return;
+        } else if (!line[1]) {
+            console.log('** no instance found **');
+            return;
+        } else if (line.length === 2) {
+            console.log('** attribute name missing **');
+            return;
+        } else if (!line[2]) {
+            console.log('** value missing **');
+            return;
+        }
     }
 
     static run() {
