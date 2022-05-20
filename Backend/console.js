@@ -51,12 +51,24 @@ class HBNBCommand extends cmd.run{
         if (line.length === 0) {
             console.log('** class name missing **');
             return;
+        } else if (!line) {
+            console.log('** class doesn\'t exist **');
+            return;
         }
     }
 
     static show(args, line) {
         if (line.length === 0) {
             console.log('** class name missing **');
+            return;
+        } else if (!line) {
+            console.log('** class doesn\'t exist **');
+            return;
+        } else if (line.length === 1) {
+            console.log('** instance id missing **');
+            return;
+        } else if (!line[1]) {
+            console.log('** no instance found **');
             return;
         }
     }
