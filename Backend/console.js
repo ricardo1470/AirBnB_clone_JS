@@ -1,7 +1,8 @@
 #!/usr/bin/node
 
 /**
- * esto es un comentario para testear el git, y el merge
+ * test 1-1-1
+ * en rama feature/Console0-1
  */
 
 const cmd = require('node-cmd');
