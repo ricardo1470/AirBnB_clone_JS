@@ -8,6 +8,9 @@ var BaseModel = require('./models/base_model');
 var storage = require('./models/__init__');
 var FileStorage = require('./models/engine/file_storage')
 
+/**
+ * esto es un comentario para testear el git, y el merge
+ */
 
 class HBNBCommand extends cmd.run{
     constructor(
