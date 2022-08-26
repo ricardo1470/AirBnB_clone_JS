@@ -4,7 +4,10 @@ const cmd = require('node-cmd');
 const path = require('path');
 const fs = require('fs');
 const { argv } = require('process');
-const BaseModel = require('./models/BaseModel');
+var BaseModel = require('./models/base_model');
+var storage = require('./models/__init__');
+var FileStorage = require('./models/engine/file_storage')
+
 
 class HBNBCommand extends cmd.run{
     constructor(
@@ -48,73 +51,104 @@ class HBNBCommand extends cmd.run{
     }
 
     static create(args, line) {
-        if (line.length === 0) {
+        // Creates a new instance of BaseModel, saves it (to the JSON file) and prints the id
+        if (line < 2) {
             console.log('** class name missing **');
             return;
         } else if (!line) {
             console.log('** class doesn\'t exist **');
             return;
+        } else {
+            let obj = new BaseModel(line[0]);
+            obj.save();
+            console.log(obj.id);
         }
     }
 
     static show(args, line) {
-        if (line.length === 0) {
+        // Prints the string representation of an instance based on the class name and id
+        if (line === 1) {
             console.log('** class name missing **');
             return;
         } else if (!line) {
             console.log('** class doesn\'t exist **');
             return;
-        } else if (line.length === 1) {
+        } else if(line < 3) {
             console.log('** instance id missing **');
             return;
-        } else if (!line[1]) {
-            console.log('** no instance found **');
-            return;
+        } else {
+            let obj = storage.all(line[0]);
+            if (!obj) {
+                console.log('** no instance found **');
+                return;
+            } else {
+                console.log(obj);
+            }
         }
     }
 
     static destroy(args, line) {
-        if (line.length === 0) {
+        // Deletes an instance based on the class name and id (save the change to the JSON file)
+        if (line === 1) {
             console.log('** class name missing **');
             return;
         } else if (!line) {
             console.log('** class doesn\'t exist **');
             return;
-        } else if (line.length === 1) {
+        } else if(line < 3) {
             console.log('** instance id missing **');
             return;
-        } else if (!line[1]) {
-            console.log('** no instance found **');
-            return;
+        } else {
+            let obj = storage.all(line[0]);
+            if (!obj) {
+                console.log('** no instance found **');
+                return;
+            } else {
+                storage.delete(obj);
+            }
         }
     }
 
     static all(args, line) {
-        if (line.length === 0) {
-            console.log('** class name missing **');
-            return;
-        }
-    }
-
-    static update(args, line) {
-        if (line.length === 0) {
+        // Prints all string representation of all instances based or class name
+        if (line === 1) {
             console.log('** class name missing **');
             return;
         } else if (!line) {
             console.log('** class doesn\'t exist **');
             return;
-        } else if (line.length === 1) {
+        } else {
+            let obj = storage.all(line[0]);
+            if (!obj) {
+                console.log('** no instance found **');
+                return;
+            } else {
+                console.log(obj);
+            }
+        }
+    }
+
+    static update(args, line) {
+        // Updates an instance based on the class name and id by adding or updating attribute
+        if (line === 1) {
+            console.log('** class name missing **');
+            return;
+        } else if (!line) {
+            console.log('** class doesn\'t exist **');
+            return;
+        } else if(line < 3) {
             console.log('** instance id missing **');
             return;
-        } else if (!line[1]) {
-            console.log('** no instance found **');
-            return;
-        } else if (line.length === 2) {
-            console.log('** attribute name missing **');
-            return;
-        } else if (!line[2]) {
-            console.log('** value missing **');
-            return;
+        } else {
+            let obj = storage.all(line[0]);
+            if (!obj) {
+                console.log('** no instance found **');
+                return;
+            } else {
+                let key = line[1];
+                let value = line[2];
+                obj.update(key, value);
+            }
         }
     }
 
@@ -128,6 +162,16 @@ class HBNBCommand extends cmd.run{
                 HBNBCommand.quit();
             } else if (cmd === 'EOF') {
                 HBNBCommand.EOF();
+            } else if (cmd.includes('create')) {
+                HBNBCommand.create(cmd);
+            } else if (cmd.includes('show')) {
+                HBNBCommand.show(cmd);
+            } else if (cmd.includes('destroy')) {
+                HBNBCommand.destroy(cmd);
+            } else if (cmd.includes('all')) {
+                HBNBCommand.all(cmd);
+            } else if (cmd.includes('update')) {
+                HBNBCommand.update(cmd);
             } else if (!cmd){
                 process.stdout.write('(hbnb) ');
             } else {

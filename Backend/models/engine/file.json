@@ -607,19 +607,4 @@
 		"name": "My_First_Model",
 		"my_number": 89
 	}
-}ated_at": "2022-05-16T17:12:42.356Z",
-		"__class__": "BaseModel"
-	},
-	"0500951c-7476-40aa-ac47-2b56f8f42154": {
-		"id": "0500951c-7476-40aa-ac47-2b56f8f42154",
-		"created_at": "2022-05-16T17:12:47.130Z",
-		"updated_at": "2022-05-16T17:12:47.130Z",
-		"__class__": "BaseModel"
-	},
-	"1df12701-c55a-4f77-af9a-755e1171a68a": {
-		"id": "1df12701-c55a-4f77-af9a-755e1171a68a",
-		"created_at": "2022-05-16T17:12:47.135Z",
-		"updated_at": "2022-05-16T17:12:47.135Z",
-		"__class__": "BaseModel"
-	}
 }
