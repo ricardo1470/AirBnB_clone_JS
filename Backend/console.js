@@ -1,5 +1,9 @@
 #!/usr/bin/node
 
+/**
+ * esto es un comentario para testear el git, y el merge
+ */
+
 const cmd = require('node-cmd');
 const path = require('path');
 const fs = require('fs');
